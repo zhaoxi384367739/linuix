@@ -1,0 +1,172 @@
+1.文件操作
+ 查看文件
+  tree：参数 path/dir 路径/目录 查看以树状结构查看路径|指定目录内容
+  符号：.|..|-|/|~ 当前|上一级|上一次|根|当前用户家
+  pwd：查看当前工作目录绝对路径
+  ls path/dir 查看指定路径/目录下的文件
+    参数：-l长格式 -a全部文件包括隐藏文件 -d查看目录本身 -h人性化
+  cat：查看文件内容 一次性显示
+  less：查看文件内容 分页显示 结束不退出
+  more：查看文件内容 分页显示 结束退出
+  tail：查看文件结尾
+    tail -n查看后n行
+    参数：-f 动态 一般情况下查看log日志
+  head：查看文件头部几行
+    head -n 文件名 表示查看文件前n行
+  touch：创建一个文件（若文件名不存在），否则修改文件时间戳
+  stat：查看文件属性状态
+  rm：删除文件
+    参数：-r递归删除目录 -f强制删除不提示 -i交互模式
+  mkdir：创建目录
+    参数：-p递归创建
+  cp：将源位置文件复制到目标位置
+    参数：-r复制目录文件 -p保留源属性（权限）
+  mv：将源位置文件移动到目标位置
+    参数：同上
+  scp：将源位置文件复制到目标位置需要ssh协议及服务支撑
+        目标源格式 用户名@主机地址：段口号默认22/文件路径
+  wc ：统计文件内容
+    参数：-l行数 -w单词数 -c字符数
+  cut：按列显示内容
+    参数：-d指定列分割符，单字符 -fn显示第n列（n从一开始）
+  file：查看文件类型
+  grep：过滤内容
+    参数： -v匹配之外 过滤匹配为正则表达式
+  >>输出重定向并追加
+  >输出重定向并覆盖（前面命令的输出到后面文件）
+  |管道（前以和命令的输出作为后一个命令的输入）
+  du统计文件大小
+   参数：-s统计目录
+2.用户操作
+  whoami：查看当前工作用户名
+  who：查看当前登陆用户
+  /etc/passwd 该文件保存系统中的所有用户信息
+  /etc/shadow 该文件保存用户的密码及密码策略
+  /etc/group 该文件保存用户组的信息
+  useradd 创建用户
+   参数： -d指定用户家目录 -s指定用户登陆shall -g指定用户组id
+  userdel 删除用户
+   参数：-r删除同时删除家目录以及邮件文件
+  usermod 修改用户
+    参数：-d指定用户家目录 -指定用户登陆shall -a追加 -G附加组 -g默认组
+  passwd：修改用户密码 不指定用户名则修改当前
+  su 切换用户
+  sudo 临时获取权限
+  visudo 编辑sudo设置
+  exit 用户退出
+  groupadd 创建组
+  groupdel 删除组
+3.权限操作
+  chmod 修改权限
+      u g o a + - r w x s/t 针对拥有者/拥有组/其他人/所有人 新增/减少 读/写/执行/二进制临时目录权限
+  r=4 w=2 x=1 suid=4 sgid=2 stick=1 umask=0002
+  chmod nnn：按指定的权限模型授予文件权限 读/写/执行
+  chmod nnnn：按照指定权限模型授予文件权限
+  chown 修改文件所属信息用户
+  chgrp
+  getfacl
+  setfacl -m -x -d
+4.软件安装及服务
+  源仓库安装方式：1.yum install 软件包 （redhaat,centos,fedora系统）2.apt-get iantall 软件包（deb系统）
+  源码下载：1.下载 
+            2.解档 tar -xcvfzjt 参数意义：解档|建档|过程可见|指定文件|gzip格式|bz2格式|查看
+            3.进入解档目录 
+            4.查看文档：一般情况下README.md 
+            5.一般方法：1)./configure  2)make 3)sudo make install
+            6.软连接至/usr/bin中：ln -s 连接源 连接目标
+  服务管理命令：
+	   【centos7以以上，radhat7以上，fafore16及以上】
+	   systemctl start|stop|reload|restart|enable|disable|status servicename        启动|停止|重置|重启|开机启动|开机不启动|查看状态
+  	   【unbuntu,及其他】
+           service  servicename 同上
+5.计划任务
+  一次性计划任务：at 时间 回车 任务命令1 回车 。。。。。。 CTRL+D(退出)
+  atrm 删除任务
+  atq 查询任务
+  周期性计划任务 crontab 回车 分 时 日 月 周 命令 回车 。。。。。。 CTRL+D（退出）
+     符号： *通配  -区间  /步进  ，同时 
+6.git操作
+  1.创建目录
+  2.进入目录
+  3.创建仓库
+  4.操作文件
+  5.加入暂存区
+  6.提交【必须使用-m进行备注】
+命令均在仓库中进行
+  git init 创建仓库
+  git status 查看藏仓库状态
+  git log 查看日志
+  git reflog 查看操作日志
+  git reset --hard 强制回推 HEAD指向当前版本 ^向前一个版本 ~n向前n个版本 亦可使用commitid
+  git add 加入暂存区 符号：*全部 可使用正则匹配
+  git commit 提交 参数：-m 注释
+  git checkout 切换分支 参数-b创建分支并切换
+  git merge 合并指定分支到当前分支
+  git branch：查看分支/创建分支 参数：-d 删除分支
+远程仓库操作：
+  git clone：在当前目录下克隆一个远程仓库 该文件夹名称与远程仓库同名
+        以下命令将在仓库文件夹下执行
+       git remote add 添加远程仓库别名
+       git push 推送当前仓库内容至远程仓库
+  ssh-keygen -t rsa -C 用户名 根据用户名创建rsa密钥对
+7.python环境搭建
+  1.去www.python.org python官方网站下载python源码包
+  2.解档
+  3.进入解档目录
+  4.执行 yum install -y gcc
+  5.执行 yum iantall -y zlib*
+  6.执行./configure
+  7.执行 make
+  8.执行 sudo make install
+  9.执行 ln -s /usr/local/bin/python3 /usr/bin/python3
+  10.去pycharm官方网站下载pycharm源码包
+  11.解档
+  12.执行ln -s 源路径（绝对路径）/usr/bin/pycharm
+  13.执行pycharm 打开pycharm编辑器
+  14.修改运行python版本为python3
+8.进程管理
+  pstree 查看进程树
+  ps 查看进程 参数：-aux -ef
+  top 动态方式查看进程    相关操作：
+  命令& 将命令以后台方式运行
+  jobs 查看后台进程组
+  bg + 后台进程组编号 将后台挂起进程重新启动
+  fg + 后台进程组编号 将后台进程调至前台运行
+  CTRL+C 中断当前前台进程
+  nice -n 命令 将命令以n优先级运行
+  renice -n pid 将指定命令优先级修改为n
+  【优先级从-20～19数值越小优先级越高】
+  kill -signol pid 向指定进程发送信号 1重置 2中断 9强制退出 15正常退出
+  pkill -signol 向参数指定的一类进程发送信号 -t指定终端号 -u指定进程所属用户 -g 指定进程所属组
+  pgrep 根据进程名查询pid -l 显示进程名 可使用正则匹配进程名
+9.电源管理
+  shutdown 关机
+  reboot 重启
+  poweroff 立即关机
+10.vim
+  i 插入模式（当前位置） 
+  a 插入模式（当前位置之后）
+  s 删除当前进入插入模式
+  x 删除当前
+  dd 光标移至第一行
+  nG 光标移至感叹号
+  G
+  :  底线模式
+  :! 执行命令
+  :.!
+  end键 光标移动到当前行最后一位
+  cc
+  y
+  nyy
+  v
+  h
+  j
+  k
+  l
+  u 撤销
+  ctrl+r
+  :w 写入
+  :w! 强制
+  :q 退出
+  :q! 强制退出
+  :1,9w>>
